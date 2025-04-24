@@ -14,13 +14,22 @@ public static class CsvParser
         var items = new List<Item>();
         csv.Read();
         csv.ReadHeader();
+
         while (csv.Read())
         {
+            var id = csv.GetField("variants - Sku");
+
+            var priceStr = csv.GetField("variants - Price");
+            var stockStr = csv.GetField("variants - StockQuantity");
+
+            double price = double.TryParse(priceStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var p) ? p : -1;
+            double stock = double.TryParse(stockStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var s) ? s : -1;
+
             items.Add(new Item
             {
-                Id = csv.GetField("Id"),
-                Price = csv.GetField<double>("Price"),
-                Stock = csv.GetField<double>("Stock")
+                Id = id,
+                Price = price,
+                Stock = stock
             });
         }
 

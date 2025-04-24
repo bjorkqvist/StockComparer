@@ -11,19 +11,14 @@ namespace CsvExcelComparer
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the CSV and Excel comparer version [0.1]!");
             var csvPath = "data.csv";
             var excelPath = "data.xlsx";
 
             var csvItems = CsvParser.Read(csvPath);
             var excelItems = ExcelParser.Read(excelPath);
 
-            var differences = Comparer.FindDifferences(csvItems, excelItems);
-
-            Console.WriteLine("Items found in CSV but not in Excel:");
-            foreach (var item in differences)
-            {
-                Console.WriteLine($"{item.Id}, {item.Price}, {item.Stock}");
-            }
+            Comparer.Compare(csvItems, excelItems);
         }
     }
 }
